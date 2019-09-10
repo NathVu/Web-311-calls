@@ -12,7 +12,7 @@ namespace CallsData
 
         public IEnumerable<Dictionary<string, object>> LoadDB(DateTime date)
         {
-            SODA.SodaClient client = new SodaClient("https://data.cityofnewyork.us", "PVGjhHLj8Svy7Ryz0uJgW9IBh");
+            SODA.SodaClient client = new SodaClient("https://data.cityofnewyork.us", Properties.Resources.SODA_API_Key);
 
             SODA.Resource<Dictionary<string, object>> dataset = client.GetResource<Dictionary<string, object>>("fhrw-4uyv");
             SoqlQuery soql = this.GetQueryDate(date);
