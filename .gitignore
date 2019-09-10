@@ -1,0 +1,17 @@
+
+Calls/.vs/Calls/v16/.suo
+*.lock
+*.ide
+*.ide-shm
+*.ide-wal
+*.user
+*.json
+*.cache
+*.props
+*.targets
+*.CopyComplete
+Calls/311calls/obj/Debug/netcoreapp2.2/311calls.RazorAssemblyInfo.cs
+*.ico
+*.map
+Calls/CallsData/Properties/Resources.Designer.cs
+Calls/CallsData/Properties/Resources.resx
