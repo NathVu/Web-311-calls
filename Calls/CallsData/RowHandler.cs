@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CallsData
 {
-    class RowHandler
+    public class RowHandler
     {
         public int total;
         public int Curr_min = 0;

@@ -5,6 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using _311calls.Models;
+using CallsData;
+using Npgsql;
 
 namespace _311calls.Controllers
 {
@@ -12,7 +14,10 @@ namespace _311calls.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            var model = new HomeViewModel();
+            Json311 json = new Json311();
+            model.JsonData = json.GetFullDataset(0, 500);
+            return View(model);
         }
 
         public IActionResult Privacy()

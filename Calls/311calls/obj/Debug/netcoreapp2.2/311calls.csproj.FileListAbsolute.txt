@@ -29,3 +29,5 @@ C:\Users\natha\Documents\GitHub\Web-311-calls\Calls\311calls\obj\Debug\netcoreap
 C:\Users\natha\Documents\GitHub\Web-311-calls\Calls\311calls\obj\Debug\netcoreapp2.2\311calls.pdb
 C:\Users\natha\Documents\GitHub\Web-311-calls\Calls\311calls\obj\Debug\netcoreapp2.2\311calls.csproj.CopyComplete
 C:\Users\natha\Documents\GitHub\Web-311-calls\Calls\311calls\obj\Debug\netcoreapp2.2\Razor\Views\Update\Index.g.cshtml.cs
+C:\Users\natha\Documents\GitHub\Web-311-calls\Calls\311calls\bin\Debug\netcoreapp2.2\CallsData.dll
+C:\Users\natha\Documents\GitHub\Web-311-calls\Calls\311calls\bin\Debug\netcoreapp2.2\CallsData.pdb

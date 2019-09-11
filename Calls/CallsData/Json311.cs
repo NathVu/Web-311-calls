@@ -8,7 +8,7 @@ using NpgsqlTypes;
 namespace CallsData
 {
 
-    class Json311
+    public class Json311
     {
         public string Unique_key { get; set; } = null;
 
@@ -283,8 +283,8 @@ namespace CallsData
                     toDisplay.Add(new Json311()
                     {
                         Unique_key = data.Tables["calls"].Rows[counter]["Unique_key"].ToString(),
-                        Created_date = this.nullableConverter(data.Tables["calls"].Rows[counter]["Created_date"]),
-                        Closed_date = this.nullableConverter(data.Tables["calls"].Rows[counter]["Closed_date"]),
+                        Created_date = Convert.ToDateTime(data.Tables["calls"].Rows[counter]["Created_date"]),
+                        Closed_date = Convert.ToDateTime(data.Tables["calls"].Rows[counter]["Closed_date"]),
                         Agency_name = data.Tables["calls"].Rows[counter]["Agency_name"].ToString(),
                         Complaint_type = data.Tables["calls"].Rows[counter]["Complaint_type"].ToString(),
                         Descriptor = data.Tables["calls"].Rows[counter]["Descriptor"].ToString(),
@@ -301,9 +301,9 @@ namespace CallsData
                         Landmark = data.Tables["calls"].Rows[counter]["Landmark"].ToString(),
                         Facility_type = data.Tables["calls"].Rows[counter]["Facility_type"].ToString(),
                         Status = data.Tables["calls"].Rows[counter]["Status"].ToString(),
-                        Due_date = this.nullableConverter(data.Tables["calls"].Rows[counter]["Due_date"]),
+                        //Due_date = this.nullableConverter(data.Tables["calls"].Rows[counter]["Due_date"]),
                         Resolution_description = data.Tables["calls"].Rows[counter]["Resolution_description"].ToString(),
-                        Resolution_action_updated_date = this.nullableConverter(data.Tables["calls"].Rows[counter]["Resolution_action_updated_date"]),
+                        //Resolution_action_updated_date = this.nullableConverter(data.Tables["calls"].Rows[counter]["Resolution_action_updated_date"]),
                         Community_board = data.Tables["calls"].Rows[counter]["Community_board"].ToString(),
                         Borough = data.Tables["calls"].Rows[counter]["Borough"].ToString(),
                         Park_facility_name = data.Tables["calls"].Rows[counter]["Park_facility_name"].ToString(),

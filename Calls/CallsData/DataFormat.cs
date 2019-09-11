@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CallsData
 {
-    class DataFormat
+    public class DataFormat
     {
 
         public List<Json311> ParseData(Dictionary<string, object>[] dataset)

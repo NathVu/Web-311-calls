@@ -6,7 +6,7 @@ using System.Text;
 
 namespace CallsData
 {
-    class ConnectionManager
+    public class ConnectionManager
     {
         private NpgsqlConnection _dbConnect { get; set; }
 

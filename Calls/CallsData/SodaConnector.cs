@@ -5,7 +5,7 @@ using SODA;
 
 namespace CallsData
 {
-    class SodaConnector
+    public class SodaConnector
     {
 
         public SodaConnector() { }
