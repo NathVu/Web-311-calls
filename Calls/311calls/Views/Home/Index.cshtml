@@ -1,8 +1,26 @@
 ﻿@model HomeViewModel
 @{
     ViewData["Title"] = "Home Page";
+    ViewBag.Title = "Home Page";
+    ViewBag.Info = $"Showing {Model.CurrentFloor} through {Model.CurrentCeil} of {Model.CurrentMax}";
 }
+<h2>@ViewBag.Title</h2>
+<h2>@ViewBag.Info</h2>
+<div id="CallsTableControls">
+    @using (Html.BeginForm("View", "Home", FormMethod.Post, new { model = Model }))
+    {
+        <button class="btn btn-primary" id="PreviousSet" name="Previous Set" onclick="App.Home.GetPreviousSet();"></button>
+        <button class="btn btn-primary" id="NextSet" name="Next Set" onclick="App.Home.GetNextSet();"></button>
+        @Html.EditorFor(model => model.StartDate)
+        @Html.EditorFor(model => model.EndDate)
+        @Html.CheckBoxFor(model => model.SearchDates)
+        @Html.EditorFor(model => model.AgencySearch)
 
+        <button class="btn btn-primary" type="submit" name="Search">
+            <i class="fa fa-search"></i>
+        </button>
+    }
+</div>
 <div id="Data">
     <table id="311CallsTable" class="table-bordered">
         <thead>
