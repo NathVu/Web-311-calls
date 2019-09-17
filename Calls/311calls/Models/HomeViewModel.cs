@@ -10,6 +10,7 @@ namespace _311calls.Models
     public class HomeViewModel
     {
         public List<Json311> JsonData { get; set; }
+        public RowHandler rowHandler { get; set; }
         public int CurrentFloor { get; set; }
         public int CurrentCeil { get; set; }
         public int CurrentMax { get; set; }

@@ -29,11 +29,12 @@ namespace _311calls.Controllers
             Json311 dataHandler = null;
             HomeViewModel model = new HomeViewModel()
             {
-                CurrentCeil = ceil,
-                CurrentFloor = floor,
-                CurrentMax = max,
-                ActiveSearch = isActiveSearch,
-                CurrentSearch = searchString
+                rowHandler = new RowHandler()
+                {
+                    Curr_min = floor,
+                    Curr_max = ceil,
+                    total = max
+                }
             };
             try
             {
@@ -52,12 +53,14 @@ namespace _311calls.Controllers
                             search = search[1].Split('|');
                             end = DateTime.Parse(search[0]);
                             agency = search[1];
+                            //Create date + agency search
                         }
                         else
                         {
                             end = DateTime.Parse(search[1]);
-
+                            model.JsonData = dataHandler.GetDateFilteredList()
                         }
+                        
                     }
                 }
             }
