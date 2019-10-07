@@ -9,3 +9,9 @@ C:\Users\natha\Documents\GitHub\Web-311-calls\Calls\CallsData\obj\Debug\netcorea
 C:\Users\natha\Documents\GitHub\Web-311-calls\Calls\CallsData\obj\Debug\netcoreapp2.2\CallsData.csproj.GenerateResource.cache
 C:\Users\natha\Documents\GitHub\Web-311-calls\Calls\CallsData\obj\Debug\netcoreapp2.2\CallsData.dll
 C:\Users\natha\Documents\GitHub\Web-311-calls\Calls\CallsData\obj\Debug\netcoreapp2.2\CallsData.pdb
+C:\Users\natha\OneDrive\Documents\GitHub\Web-311-calls\Calls\CallsData\obj\Debug\netcoreapp2.2\CallsData.csprojAssemblyReference.cache
+C:\Users\natha\OneDrive\Documents\GitHub\Web-311-calls\Calls\CallsData\obj\Debug\netcoreapp2.2\CallsData.csproj.CoreCompileInputs.cache
+C:\Users\natha\OneDrive\Documents\GitHub\Web-311-calls\Calls\CallsData\obj\Debug\netcoreapp2.2\CallsData.AssemblyInfoInputs.cache
+C:\Users\natha\OneDrive\Documents\GitHub\Web-311-calls\Calls\CallsData\obj\Debug\netcoreapp2.2\CallsData.AssemblyInfo.cs
+C:\Users\natha\OneDrive\Documents\GitHub\Web-311-calls\Calls\CallsData\obj\Debug\netcoreapp2.2\CallsData.dll
+C:\Users\natha\OneDrive\Documents\GitHub\Web-311-calls\Calls\CallsData\obj\Debug\netcoreapp2.2\CallsData.pdb

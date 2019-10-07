@@ -23,7 +23,42 @@ namespace _311calls.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> ChangeSet(int floor, int ceil, int max, bool isActiveSearch, string searchString)
+        public async Task<ActionResult> ChangeSetWithoutFilter(int floor, int ceil, int max, int change)
+        {
+            ActionResult actionResult = null;
+            Json311 dataHandler = null;
+            HomeViewModel model = new HomeViewModel()
+            {
+                rowHandler = new RowHandler()
+                {
+                    Curr_min = floor,
+                    Curr_max = ceil,
+                    total = max
+                }
+            };
+            try
+            {
+                dataHandler = new Json311();
+                if(change > 0)
+                {
+                    model.rowHandler.UpdateValuesUp();
+                }
+                else
+                {
+                    model.rowHandler.UpdateValuesDown();
+                }
+                model.JsonData = dataHandler.GetFullDataset(model.rowHandler.Curr_min, model.rowHandler.Curr_max);
+                actionResult = View(model);
+            }
+            catch(Exception ex)
+            {
+                actionResult = Json(new { Reroute = false, error = $"Error retrieving new DataSet: {ex.GetType()}" });
+            }
+            return await Task.FromResult(actionResult);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ChangeSet(int floor, int ceil, int max, bool isActiveSearch, string searchString, int requestedChange)
         {
             ActionResult actionResult = null;
             Json311 dataHandler = null;
@@ -57,11 +92,23 @@ namespace _311calls.Controllers
                         }
                         else
                         {
+                            if (requestedChange > 0)
+                            {
+                                model.rowHandler.UpdateValuesUp();
+                            }
+                            else
+                            {
+                                model.rowHandler.UpdateValuesDown();
+                            }
                             end = DateTime.Parse(search[1]);
-                            model.JsonData = dataHandler.GetDateFilteredList()
+                            model.JsonData = dataHandler.GetDateFilteredList(model.rowHandler.Curr_min, model.rowHandler.Curr_max, start.Value, end.Value);
                         }
                         
                     }
+                }
+                else
+                {
+                    return await ChangeSetWithoutFilter(floor, ceil, max, requestedChange);
                 }
             }
             catch (Exception ex)
@@ -70,6 +117,7 @@ namespace _311calls.Controllers
             }
             return await Task.FromResult(actionResult);
         }
+
         public IActionResult Privacy()
         {
             return View();
