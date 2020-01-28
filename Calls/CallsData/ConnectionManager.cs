@@ -235,12 +235,13 @@ namespace CallsData
 
         }
 
-        public int GetRows()
+        public int GetRows(NpgsqlConnection conn)
         {
             int total = 0;
 
-            using (NpgsqlCommand totalRows = new NpgsqlCommand("SELECT COUNT(*) FROM calls WHERE Created_date IS NOT NULL AND" +
-                " Closed_date IS NOT NULL AND Due_date IS NOT NULL AND Resolution_action_updated_date IS NOT NULL", _dbConnect))
+            NpgsqlCommand totalRows = new NpgsqlCommand("SELECT COUNT(*) FROM calls WHERE Created_date IS NOT NULL AND" +
+                " Closed_date IS NOT NULL", _dbConnect);
+            totalRows.Connection = conn;
             using (NpgsqlDataReader reader = totalRows.ExecuteReader())
             {
                 while (reader.Read())

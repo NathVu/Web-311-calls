@@ -23,7 +23,10 @@ namespace _311calls.Models
         [DisplayName("Search Agencies")]
         public string AgencySearch { get; set; }
         public string CurrentSearch { get; set; }
-
+        public int ChangeUp { get; set; }
+        public int ChangeDown { get; set; }
+        public bool NextSet { get; set; }
+        public bool PreviousSet { get; set; }
         public void Validate()
         {
             if (SearchDates)

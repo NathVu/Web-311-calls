@@ -255,6 +255,47 @@ namespace CallsData
 
         }
 
+        public int GetCount(DateTime start, DateTime end)
+        {
+            int result = 0;
+            NpgsqlConnection conn = null;
+            try
+            {
+                ConnectionManager connection = new ConnectionManager();
+                conn = connection.ConnectGCP(Properties.Resources.gcpUser, Properties.Resources.gcpPass);
+                using (NpgsqlCommand filterRows = new NpgsqlCommand($"SELECT COUNT(*) FROM calls WHERE Created_date IS NOT NULL " +
+                    $"AND Created_date <= '{end.ToString("yyyy-MM-dd hh:mm:ss")}' AND Created_date >= '{start.ToString("yyyy-MM-dd hh:mm:ss")}'", conn))
+                using (NpgsqlDataReader reader = filterRows.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        result = reader.GetInt32(0);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                
+            }
+            return result;
+        }
+
+        public int GetCount()
+        {
+            int result = 0;
+            NpgsqlConnection conn = null;
+            try
+            {
+                ConnectionManager connection = new ConnectionManager();
+                conn = connection.ConnectGCP(Properties.Resources.gcpUser, Properties.Resources.gcpPass);
+                result = connection.GetRows(conn);
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return result;
+        }
 
         public List<Json311> GetFullDataset(int offset, int limit)
         {
@@ -382,19 +423,18 @@ namespace CallsData
             return toDisplay;
         }
 
-
+        //Fix inseting date straight into NPGSQL query string 
         public List<Json311> GetDateFilteredList(int limit, int offset, DateTime date1, DateTime date2)
         {
             NpgsqlConnection conn = null;
             List<Json311> toDisplay = new List<Json311>();
-            NpgsqlDateTime start = date1, end = date2;
+            DateTime start = date1, end = date2;
             try
             {
                 ConnectionManager connection = new ConnectionManager();
                 conn = connection.ConnectGCP(Properties.Resources.gcpUser, Properties.Resources.gcpPass);
-                NpgsqlCommand query = new NpgsqlCommand("SELECT Unique_key, Created_date, Closed_date, Agency_name " +
-                    "Complaint_type, Status, Incident_address, Incident_zip, Borough FROM calls WHERE Created_date IS NOT NULL " +
-                    "AND Created_date >= " + start + " AND Created_date <= " + end + " LIMIT " + limit + " OFFSET " + offset);
+                NpgsqlCommand query = new NpgsqlCommand("SELECT * FROM calls WHERE Created_date IS NOT NULL AND Closed_date IS NOT NULL " +
+                    "AND Created_date >= '" + start.ToString("yyyy-MM-dd hh:mm:ss") + "' AND Created_date <= '" + end.ToString("yyyy-MM-dd hh:mm:ss") + "' LIMIT " + limit + " OFFSET " + offset);
                 query.Connection = conn;
                 NpgsqlDataAdapter myAdapter = new NpgsqlDataAdapter(query);
                 DataSet data = new DataSet();
@@ -412,11 +452,41 @@ namespace CallsData
                         Closed_date = Convert.ToDateTime(data.Tables["calls"].Rows[counter]["Closed_date"]),
                         Agency_name = data.Tables["calls"].Rows[counter]["Agency_name"].ToString(),
                         Complaint_type = data.Tables["calls"].Rows[counter]["Complaint_type"].ToString(),
-                        Status = data.Tables["calls"].Rows[counter]["Status"].ToString(),
-                        Incident_address = data.Tables["calls"].Rows[counter]["Incident_address"].ToString(),
+                        Descriptor = data.Tables["calls"].Rows[counter]["Descriptor"].ToString(),
+                        Location_type = data.Tables["calls"].Rows[counter]["Location_type"].ToString(),
                         Incident_zip = data.Tables["calls"].Rows[counter]["Incident_zip"].ToString(),
+                        Incident_address = data.Tables["calls"].Rows[counter]["Incident_address"].ToString(),
+                        Street_name = data.Tables["calls"].Rows[counter]["Street_name"].ToString(),
+                        Cross_street_1 = data.Tables["calls"].Rows[counter]["Cross_street_1"].ToString(),
+                        Cross_street_2 = data.Tables["calls"].Rows[counter]["Cross_street_2"].ToString(),
+                        Intersection_street_1 = data.Tables["calls"].Rows[counter]["Intersection_street_1"].ToString(),
+                        Intersection_street_2 = data.Tables["calls"].Rows[counter]["Intersection_street_2"].ToString(),
+                        Address_type = data.Tables["calls"].Rows[counter]["Address_type"].ToString(),
+                        City = data.Tables["calls"].Rows[counter]["City"].ToString(),
+                        Landmark = data.Tables["calls"].Rows[counter]["Landmark"].ToString(),
+                        Facility_type = data.Tables["calls"].Rows[counter]["Facility_type"].ToString(),
+                        Status = data.Tables["calls"].Rows[counter]["Status"].ToString(),
+                        //Due_date = this.nullableConverter(data.Tables["calls"].Rows[counter]["Due_date"]),
+                        Resolution_description = data.Tables["calls"].Rows[counter]["Resolution_description"].ToString(),
+                        //Resolution_action_updated_date = this.nullableConverter(data.Tables["calls"].Rows[counter]["Resolution_action_updated_date"]),
+                        Community_board = data.Tables["calls"].Rows[counter]["Community_board"].ToString(),
                         Borough = data.Tables["calls"].Rows[counter]["Borough"].ToString(),
+                        Park_facility_name = data.Tables["calls"].Rows[counter]["Park_facility_name"].ToString(),
+                        Park_borough = data.Tables["calls"].Rows[counter]["Park_borough"].ToString(),
+                        Vehicle_type = data.Tables["calls"].Rows[counter]["Vehicle_type"].ToString(),
+                        Taxi_company_borough = data.Tables["calls"].Rows[counter]["Taxi_company_borough"].ToString(),
+                        Taxi_pick_up_location = data.Tables["calls"].Rows[counter]["Taxi_pick_up_location"].ToString(),
+                        Bridge_highway_name = data.Tables["calls"].Rows[counter]["Bridge_highway_name"].ToString(),
+                        Bridge_highway_direction = data.Tables["calls"].Rows[counter]["Bridge_highway_direction"].ToString(),
+                        Road_ramp = data.Tables["calls"].Rows[counter]["Road_ramp"].ToString(),
+                        Bridge_highway_segment = data.Tables["calls"].Rows[counter]["Bridge_highway_segment"].ToString(),
+                        Latitude = data.Tables["calls"].Rows[counter]["Latitude"].ToString(),
+                        Longitude = data.Tables["calls"].Rows[counter]["Longitude"].ToString(),
+                        Location_city = data.Tables["calls"].Rows[counter]["Location_city"].ToString(),
+                        Location_zip = data.Tables["calls"].Rows[counter]["Location_zip"].ToString()
                     });
+                    counter++;
+
                 }
             }
             catch(Exception ex)

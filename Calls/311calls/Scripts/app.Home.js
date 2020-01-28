@@ -13,7 +13,7 @@
         var currentCeil = $("#CurrentCeil").val();
         var activeSearch = $("#ActiveSearch").val();
         var searchString = $("#SearchString").val();
-        
+        alert("HERE");
 
         $.post("~/Home/ChangeSet", {
             floor: currentFloor,
@@ -29,6 +29,17 @@
                 else {
                     alert("error changing data set")
                 }
+        });
+    },
+    LoadMap: function (longitude, latitude) {
+        $.ajax({
+            method: 'GET',
+            url: "/Map/Index",
+            data: {
+                longitude: longitude,
+                latitude: latitude
+            },
+            dataType: "html"
         });
     }
 }

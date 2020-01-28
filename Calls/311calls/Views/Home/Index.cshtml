@@ -4,23 +4,28 @@
     ViewBag.Title = "Home Page";
     ViewBag.Info = $"Showing {Model.CurrentFloor} through {Model.CurrentCeil} of {Model.CurrentMax}";
 }
-<h2>@ViewBag.Title</h2>
 <h2>@ViewBag.Info</h2>
 <div id="CallsTableControls">
-    @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { model = Model }))
+    @using (Html.BeginForm("Index", "Home", FormMethod.Get, new { model = Model }))
     {
         @Html.HiddenFor(model => model.CurrentFloor)
         @Html.HiddenFor(model => model.CurrentCeil)
         @Html.HiddenFor(model => model.CurrentMax)
-        @Html.HiddenFor(model => model.ActiveSearch)
-        <button class="btn btn-primary" id="PreviousSet" name="Previous Set" onclick="App.Home.GetSet(-500);"></button>
-        <button class="btn btn-primary" id="NextSet" name="Next Set" onclick="App.Home.GetSet(500);"></button>
+        @if (!Model.StartDate.HasValue)
+        {
+            <a href="/Home/ChangeSetWithoutFilter?floor=@(Model.CurrentFloor)&ceil=@(Model.CurrentCeil)&max=@(Model.CurrentMax)&change=@(Model.ChangeDown)"><i class="fa fa-arrow-left" title="Previous"></i></a>
+            <a href="/Home/ChangeSetWithoutFilter?floor=@(Model.CurrentFloor)&ceil=@(Model.CurrentCeil)&max=@(Model.CurrentMax)&change=@(Model.ChangeUp)"><i class="fa fa-arrow-right" title="Next"></i></a>
+        }
+        else
+        {
+            <a href="/Home/Index?CurrentFloor=@(Model.CurrentFloor)&CurrentCeil=@(Model.CurrentCeil)&CurrentMax=@(Model.CurrentMax)&ChangeDown=@(Model.ChangeDown)&StartDate=@(Model.StartDate)&EndDate=@(Model.EndDate)&PreviousSet=true"><i class="fa fa-arrow-left" title="Previous"></i></a>
+            <a href="/Home/Index?CurrentFloor=@(Model.CurrentFloor)&CurrentCeil=@(Model.CurrentCeil)&CurrentMax=@(Model.CurrentMax)&ChangeUp=@(Model.ChangeUp)&StartDate=@(Model.StartDate)&EndDate=@(Model.EndDate)&NextSet=true"><i class="fa fa-arrow-right" title="Next"></i></a>
+
+        }
         @Html.EditorFor(model => model.StartDate)
         @Html.EditorFor(model => model.EndDate)
-        @Html.CheckBoxFor(model => model.SearchDates)
-        @Html.EditorFor(model => model.AgencySearch)
-
-        <button class="btn btn-primary" type="submit" name="Search">
+        @Html.HiddenFor(model => model.ActiveSearch)
+        <button style="height:40px;width:40px;text-align:center;" type="submit" name="Search">
             <i class="fa fa-search"></i>
         </button>
     }
@@ -30,6 +35,9 @@
     <table id="311CallsTable" class="table-bordered">
         <thead>
             <tr>
+                <th class="col-2">
+                    Map View
+                </th>
                 <th class="col-2">
                     Unique Key
                 </th>
@@ -141,6 +149,9 @@
             @foreach (var option in Model.JsonData)
             {
                 <tr>
+                    <td style="text-align:center;">
+                        <a href="/Map/Index?longitude=@(option.Longitude)&latitude=@(option.Latitude)"><i class="fa fa-location-arrow" title="View Map"></i></a>
+                    </td>
                     <td>
                         @(option.Unique_key)
                     </td>
@@ -254,26 +265,45 @@
 
 <script>
     $(document).ready(function () {
-        $('#311CallsTable').after('<div id="Data"></div>');
-        var rowsShown = 20;
-        var rowsTotal = $('#311CallsTable tbody tr').length;
-        var numPages = rowsTotal / rowsShown;
-        for (i = 0; i < numPages; i++) {
-            var pageNum = i + 1;
-            $('#Data').append('<a href="#" rel="' + i + '">' + pageNum + '</a> ');
+        $("#311CallsTable").DataTable();
+    })
+    function GetSet(itemChange) {
+        var currentMax = $("#CurrentMax").val();
+        if (Math.abs(itemChange) > currentMax) {
+            alert("Displaying the full set of entries");
+            return;
         }
-        $('#311CallsTable tbody tr').hide();
-        $('#311CallsTable tbody tr').slice(0, rowsShown).show();
-        $('#Data a:first').addClass('active');
-        $('#Data a').bind('click', function () {
 
-            $('#Data a').removeClass('active');
-            $(this).addClass('active');
-            var currPage = $(this).attr('rel');
-            var startItem = currPage * rowsShown;
-            var endItem = startItem + rowsShown;
-            $('#311CallsTable tbody tr').css('opacity', '0.0').hide().slice(startItem, endItem).
-                css('display', 'table-row').animate({ opacity: 1 }, 300);
+        var currentFloor = $("#CurrentFloor").val();
+        var currentCeil = $("#CurrentCeil").val();
+        var activeSearch = $("#ActiveSearch").val();
+        var searchString = $("#SearchString").val();
+
+        $.ajax({
+            method: 'POST',
+            url: "/Home/ChangeSet/",
+            data: {
+                floor: currentFloor,
+                ceil: currentCeil,
+                max: currentMax,
+                isActiveSearch: activeSearch,
+                searchString: searchString,
+                requestedChange: itemChange
+            },
+            dataType: "html"
+        }).done(function (html) {
+            document.html($(html));
+        })
+    }
+    function LoadMap(longitude, latitude) {
+        $.ajax({
+            method: 'GET',
+            url: "/Map/Index",
+            data: {
+                longitude: longitude,
+                latitude: latitude
+            },
+            dataType: "html"
         });
-    });
+    }
 </script>

@@ -8,9 +8,22 @@ namespace _311calls.Controllers
 {
     public class MapController : Controller
     {
-        public IActionResult Index()
+        public ActionResult Index(double longitude, double latitude)
         {
-            return View();
+            if(longitude == 0)
+            {
+                longitude = 40.7831;
+            }
+            if (latitude == 0)
+            {
+                latitude = 73.9712;
+            }
+            Models.MapViewModel model = new Models.MapViewModel()
+            {
+                Latitude = latitude,
+                Longitude = longitude
+            };
+            return View(model);
         }
     }
 }

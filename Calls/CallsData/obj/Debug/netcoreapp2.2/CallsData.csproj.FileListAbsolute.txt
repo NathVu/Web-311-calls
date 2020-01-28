@@ -1,6 +1,5 @@
 C:\Users\natha\Documents\GitHub\Web-311-calls\Calls\CallsData\bin\Debug\netcoreapp2.2\CallsData.deps.json
 C:\Users\natha\Documents\GitHub\Web-311-calls\Calls\CallsData\bin\Debug\netcoreapp2.2\CallsData.dll
-C:\Users\natha\Documents\GitHub\Web-311-calls\Calls\CallsData\obj\Debug\netcoreapp2.2\CallsData.csproj.CoreCompileInputs.cache
 C:\Users\natha\Documents\GitHub\Web-311-calls\Calls\CallsData\obj\Debug\netcoreapp2.2\CallsData.AssemblyInfoInputs.cache
 C:\Users\natha\Documents\GitHub\Web-311-calls\Calls\CallsData\obj\Debug\netcoreapp2.2\CallsData.AssemblyInfo.cs
 C:\Users\natha\Documents\GitHub\Web-311-calls\Calls\CallsData\obj\Debug\netcoreapp2.2\CallsData.csprojAssemblyReference.cache
